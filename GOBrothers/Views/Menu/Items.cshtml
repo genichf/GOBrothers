@@ -1,0 +1,185 @@
+﻿@{
+    ViewBag.Title = "Меню";
+}
+
+@helper ActiveItemByControllerAction(string controllerName, string actionName)
+{
+    if (controllerName == ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() &&
+        actionName == ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString())
+    {
+        @:class="active"
+    }
+}
+
+@helper ActiveItemByControllerAction1Action2(string controllerName, string actionName1, string actionName2)
+{
+if (controllerName == ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() &&
+    actionName1 == ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() ||
+    actionName2 == ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString())
+    {
+        @:class="active"
+    }
+}
+
+@helper ActiveItemInBlogMenuByBlogId(int blogId)
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["blogId"] != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Post" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "List" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["blogId"].ToString() == blogId.ToString())
+        {
+                @:class="active"
+        }
+    }
+    if (ViewContext.ParentActionViewContext.ViewBag.blogId != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Post" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "PostById" &&
+        ViewContext.ParentActionViewContext.ViewBag.blogId.ToString() == blogId.ToString())
+        {
+                    @:class="active"
+        }
+    }
+}
+
+@helper ActiveItemInBlogMenuWhenAllPostsInAllBlogsSelected()
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Post" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "List" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["blogId"] == null)
+        {
+            @:class="active"
+        }
+}
+
+@helper ActiveItemInPortfolioMenuByPortfolioCategoryId(int portfolioCategoryId)
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["portfolioCategoryId"] != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Portfolio" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "PortfolioList" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["portfolioCategoryId"].ToString() == portfolioCategoryId.ToString())
+        {
+            @:class="active"
+        }
+    }
+    if (ViewContext.ParentActionViewContext.ViewBag.portfolioCategoryId != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Portfolio" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "PortfolioPostById" &&
+        ViewContext.ParentActionViewContext.ViewBag.portfolioCategoryId.ToString() == portfolioCategoryId.ToString())
+        {
+            @:class="active"
+        }
+    }
+}
+
+@helper ActiveItemInPortfolioMenuWhenAllPortfolioPostsInAllPortfolioCategoriesSelected()
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Portfolio" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "PortfolioList" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["portfolioCategoryId"] == null)
+    {
+        @:class="active"
+    }
+}
+
+<!------------------------>
+
+@helper ActiveItemByController(string controllerName)
+{
+    if (controllerName == ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString())
+    {
+        @:class="active"
+    }
+}
+
+@helper ActiveItemInGalleryMenuByAlbumId(int albumId)
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["albumId"] != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Gallery" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "ImagesList" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["albumId"].ToString() == albumId.ToString())
+        {
+            @:class="active"
+        }
+    }
+    if (ViewContext.ParentActionViewContext.ViewBag.albumId != null)
+    {
+        if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Gallery" &&
+        ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "ImageById" &&
+        ViewContext.ParentActionViewContext.ViewBag.albumId.ToString() == albumId.ToString())
+        {
+            @:class="active"
+        }
+    }
+}
+
+@helper ActiveItemInGalleryMenuWhenAllImagesInAllAlbumsSelected()
+{
+    if (ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString() == "Gallery" &&
+    ViewContext.ParentActionViewContext.RouteData.Values["action"].ToString() == "ImagesList" &&
+    ViewContext.ParentActionViewContext.RouteData.Values["albumId"] == null)
+    {
+        @:class="active"
+    }
+}
+
+<ul class="nav navbar-nav">
+    <li @ActiveItemByControllerAction("Home", "Index")>@Html.ActionLink("Головна", "Index", "Home")</li>
+
+    <li @ActiveItemByControllerAction1Action2("Post", "List", "PostById")>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Статті<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            @if (ViewBag.blogs != null)
+            {
+                <li @ActiveItemInBlogMenuWhenAllPostsInAllBlogsSelected()>@Html.RouteLink("Всі", new { controller = "Post", action = "List" })</li>
+                foreach (var b in ViewBag.blogs)
+                {
+                    <li @ActiveItemInBlogMenuByBlogId(b.Id)>@Html.RouteLink((string)b.Name, new { controller = "Post", action = "List", blogId = b.Id })</li>
+                }
+            }
+        </ul>
+    </li>
+
+    <li @ActiveItemByControllerAction1Action2("Portfolio", "PortfolioList", "PortfolioPostById")>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Портфоліо<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            @if (ViewBag.portfolioCategories != null)
+            {
+                <li @ActiveItemInPortfolioMenuWhenAllPortfolioPostsInAllPortfolioCategoriesSelected()>@Html.RouteLink("Все", new { controller = "Portfolio", action = "PortfolioList" })</li>
+                foreach (var pc in ViewBag.portfolioCategories)
+                {
+                    <li @ActiveItemInPortfolioMenuByPortfolioCategoryId(pc.Id)>@Html.RouteLink((string)pc.Name, new { controller = "Portfolio", action = "PortfolioList", portfolioCategoryId = pc.Id })</li>
+                }
+            }
+        </ul>
+    </li>
+
+    <li @ActiveItemByController("Gallery")>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Фотогалерея<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            @if (ViewBag.albums != null)
+            {
+                <li @ActiveItemByControllerAction("Gallery","AlbumsList")>@Html.RouteLink("Всі альбоми", new { controller = "Gallery", action = "AlbumsList" })</li>
+                <li @ActiveItemInGalleryMenuWhenAllImagesInAllAlbumsSelected()>@Html.RouteLink("Всі фото", new { controller = "Gallery", action = "ImagesList" })</li>
+                /*foreach (var a in ViewBag.albums)
+                {
+                    <li @ActiveItemInGalleryMenuByAlbumId(a.Id)>@Html.RouteLink((string)a.Name, new { controller = "Gallery", action = "ImagesList", albumId = a.Id })</li>
+                }*/
+            }
+        </ul>
+    </li>
+
+    <li @ActiveItemByControllerAction1Action2("Info", "About", "Contact")>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Компанія<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li @ActiveItemByControllerAction("Info", "About")>@Html.ActionLink("Про нас", "About", "Info")</li>
+            <li @ActiveItemByControllerAction("Info", "Contact")>@Html.ActionLink("Зв’язок з нами", "Contact", "Info")</li>
+        </ul>
+    </li>
+</ul>
+
+@Html.Partial("_LoginPartial")

@@ -1,0 +1,198 @@
+﻿@model GOBrothers.Domain.Entities.PortfolioPost
+
+@{
+    ViewBag.Title = "Редагувати/додати";
+}
+
+@if (Model.Id == 0)
+{ <h4 style="color:#808080">Створення нового запису портфоліо</h4> }
+else { <h4><span style="color:#808080">Редагування запису портфоліо - </span>@Model.Title</h4>}
+
+@using (Html.BeginForm("PortfolioEdit", "AdminPortfolio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>@Html.TextBoxFor(Model => Model.Id, new { style = "display: none;" })</p>
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.Title, "Назва запису")
+    </div>
+    <div class="editor-field">
+        <p>@Html.TextBoxFor(Model => Model.Title, new { style = "width:500px" })</p>
+        @Html.ValidationMessageFor(Model => Model.Title)
+    </div>
+    if (Model.Id != 0)
+    {
+        <p>Зображення-логотип статті</p>
+        <div class="logo-image">
+            <img src="~/Content/PortfolioImages/@Model.Id.ToString()/Logo/logo_small.jpg" alt="Image" />
+        </div>
+    }
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.ShortContent, "Короткий текст")
+    </div>
+    <div class="editor-field">
+        <p>@Html.TextAreaFor(Model => Model.ShortContent, new { id = "my-short-textarea", style = "max-width:1000px; width:1000px; max-height:100px; height:100px" })</p>
+        @Html.ValidationMessageFor(Model => Model.ShortContent)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.Content, "Основний текст")
+    </div>
+    <div class="editor-field">
+        <p>@Html.TextAreaFor(Model => Model.Content, new { id = "my-textarea", style = "max-width:1000px; width:1000px; max-height:150px; height:150px" })</p>
+        @Html.ValidationMessageFor(Model => Model.Content)
+    </div>
+
+    <div class="editor-label">
+        @{
+            string visible = "";
+            string text = "(Збережеться нова дата)";
+            if (Model.Id == 0) { visible = "display: none;"; text = ""; }
+            @Html.LabelFor(Model => Model.Created, "Дата попереднього редагування", new { style = visible })
+            if (Model.Id == 0)
+            { <p style="font-size:9px;">@text</p> }
+        }
+    </div>
+    <div class="editor-field">
+        @if (Model.Id == 0)
+        {
+            <p>@Html.TextBoxFor(Model => Model.Created, new { style = "display: none;" })</p>
+        }
+        else
+        {
+            if (Model.Created != null)
+            {
+                <p>@Html.TextBoxFor(Model => Model.Created, new { Value = Model.Created.Value.ToString("dd.MM.yyyy H:mm:ss"), @readonly = "readonly" })</p>
+            }
+            else
+            {
+                <p>@Html.TextBoxFor(Model => Model.Created, new { @readonly = "readonly" })</p>
+            }
+        }
+        @Html.ValidationMessageFor(Model => Model.Created)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.PortfolioCategoryId, "Категорія")
+    </div>
+    <div class="editor-field">
+        <p>@Html.DropDownListFor(Model => Model.PortfolioCategoryId, (SelectList)ViewBag.PortfolioCategories)</p>
+        @Html.ValidationMessageFor(Model => Model.PortfolioCategoryId)
+    </div>
+            if (Model.Id != 0)
+            {
+                <div><p>Завантажити зображення-логотип для статті:</p></div>
+                <div id="logo-uploader"><p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p></div>
+                <div><p>Завантажити кілька зображення для контенту статті:</p></div>
+                <div id="uploader"><p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p></div>
+
+                // Display images and urls of images
+                // for content of post
+                <div class="outputimages">
+                    <p>Зображення для короткого та основного тексту статті</p>
+                    @foreach (var portfolioImages in Model.PortfolioImages)
+                    {
+                        string pathToFile = portfolioImages.RndName;
+                        string pathToSmallFile = Path.GetFileNameWithoutExtension(portfolioImages.RndName) + "_small" + Path.GetExtension(portfolioImages.RndName);
+                        <img src="~/Content/PortfolioImages/@Model.Id.ToString()/@pathToSmallFile" alt="Image" />
+                        string myStringImgUrl = "<a href='/Content/PortfolioImages/" + @Model.Id.ToString() + "/" + @pathToFile + "' rel='prettyPhoto[pp_gal]'><img src='/Content/PortfolioImages/" + @Model.Id.ToString() + "/" + @pathToSmallFile + "' alt='' /></a>";
+                        <p style="font-size:8px;">@myStringImgUrl</p>
+                    }
+                </div>
+            }
+            <input type="submit" value="Зберегти" />
+            <br><br>
+            @Html.ActionLink("Відмінити та повернутися", null, null, null, new { href = Request.UrlReferrer })
+}
+
+@section Scripts {
+    <!-- Binding ckeditor to textarea whit id="my-textarea" -->
+    <script type="text/javascript">
+    $(function () {
+        $('textarea').attr('my-textarea', 'my-short-textarea').ckeditor();
+    });
+    </script>
+    <!-- End binding ckeditor to textarea whit id="my-textarea" -->
+    <!-- Binding plupload to id="uploader", script settings and code for working plupload-->
+    <script type="text/javascript">
+    $(function () {
+        $("#logo-uploader").pluploadQueue({
+            // General settings
+            runtimes: "html5,flash,silverlight,html4",
+            url: '@Url.Action("PortfolioLogoUpload", "AdminPortfolio", new { portfolioPostId = Model.Id })',
+            max_file_size: '10mb',
+            chunk_size: '1mb',
+            unique_names: true,
+            button_browse_hover: true,
+            multiple_queues: true,
+            dragdrop: true,
+            multi_selection: false,
+            // Resize images on clientside if we can
+            resize: { width: 1024, height: 768, quality: 90, crop: false },
+            // Specify what files to browse for
+            filters: [
+            { title: "Image files", extensions: "jpg,gif,png,jpeg,bmp" },
+            { title: "Zip files", extensions: "zip" },
+            { title: 'PDF files', extensions: 'pdf' },
+            { title: "Excel Files", extensions: "xls,xslx,csv" },
+        ],
+
+            // Flash settings
+            flash_swf_url: 'Url.Content("~/Scripts/plupload/js/Moxie.swf")',
+            // Silverlight settings
+            silverlight_xap_url: 'Url.Content("~/Scripts/plupload/js/Moxie.xap")'
+        });
+
+        var uploader = $('#logo-uploader').pluploadQueue();
+        uploader.bind('UploadComplete', function () {
+            //alert('Alert!');
+            location.reload(); //location.href = location.href;// window.location.reload()
+            //$(".outputimages").html('The output goes here');
+        });
+    });
+
+    </script>
+    <!-- End binding plupload to id="uploader", script settings and code for working plupload-->
+    <!-- Binding plupload to id="uploader", script settings and code for working plupload-->
+    <script type="text/javascript">
+    $(function () {
+        $("#uploader").pluploadQueue({
+            // General settings
+            runtimes: "html5,flash,silverlight,html4",
+            url: '@Url.Action("PortfolioImageUpload", "AdminPortfolio", new { portfolioPostId = Model.Id })',
+            max_file_size: '10mb',
+            chunk_size: '1mb',
+            unique_names: true,
+            button_browse_hover: true,
+            multiple_queues: true,
+            dragdrop: true,
+            // Resize images on clientside if we can
+            resize: { width: 1024, height: 768, quality: 90, crop: false },
+            // Specify what files to browse for
+            filters: [
+            { title: "Image files", extensions: "jpg,gif,png,jpeg,bmp" },
+            { title: "Zip files", extensions: "zip" },
+            { title: 'PDF files', extensions: 'pdf' },
+            { title: "Excel Files", extensions: "xls,xslx,csv" },
+        ],
+
+            // Flash settings
+            flash_swf_url: 'Url.Content("~/Scripts/plupload/js/Moxie.swf")',
+            // Silverlight settings
+            silverlight_xap_url: 'Url.Content("~/Scripts/plupload/js/Moxie.xap")'
+        });
+
+        var uploader = $('#uploader').pluploadQueue();
+        uploader.bind('UploadComplete', function () {
+            location.reload();
+        });
+    });
+    </script>
+    <!-- End binding plupload to id="uploader", script settings and code for working plupload-->
+}
+
+
+
+
+
+

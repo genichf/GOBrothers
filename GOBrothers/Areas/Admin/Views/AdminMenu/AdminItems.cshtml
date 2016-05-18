@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Меню администратора";
+}
+
+@helper ActiveItemByControllerAction(string controllerName)
+{
+    if (controllerName == ViewContext.ParentActionViewContext.RouteData.Values["controller"].ToString())
+    {
+        @:class="active"
+    }
+}
+
+<ul class="nav navbar-nav">
+    <li @ActiveItemByControllerAction("Admin")>@Html.ActionLink("Статті(ред.)", "AdminList", "Admin", new { area = "admin" }, null)</li>
+    <li @ActiveItemByControllerAction("AdminPortfolio")>@Html.ActionLink("Портфоліо(ред.)", "AdminPortfolioList", "AdminPortfolio", new { area = "admin" }, null)</li>
+    <li @ActiveItemByControllerAction("AdminGallery")>@Html.ActionLink("Альбоми(ред.)", "AdminAlbumsList", "AdminGallery", new { area = "admin" }, null)</li>
+    <li @ActiveItemByControllerAction("AdminGallery")>@Html.ActionLink("Світлини(ред.)", "AdminImagesList", "AdminGallery", new { area = "admin" }, null)</li>
+</ul>
+
+@Html.Partial("_LoginPartial")
+
+

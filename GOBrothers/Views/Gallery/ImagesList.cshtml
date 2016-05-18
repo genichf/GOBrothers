@@ -1,0 +1,27 @@
+﻿@model GOBrothers.Models.AlbumImagesListViewModel
+
+@{
+    ViewBag.Title = "Images";
+}
+
+@if (Model.AlbumId != null)
+{
+    <div><h3>Альбом - @ViewBag.AlbumName</h3></div>
+}
+
+@foreach (var i in Model.AlbumImages)
+{
+    Html.RenderPartial("ImageSummaryPartial", i);
+}
+
+<div style="clear:left">
+    <br>
+    @Html.ActionLink("Повернутися", null, null, null, new { href = Request.UrlReferrer })
+</div>
+
+@if (Model.PagingInfo.TotalPages > 1)
+{
+    <div class="pager">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("ImagesList", new { page = x, albumId = Model.AlbumId }))
+    </div>
+}

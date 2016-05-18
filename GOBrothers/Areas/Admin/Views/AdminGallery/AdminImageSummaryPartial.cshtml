@@ -1,0 +1,15 @@
+﻿@using System.IO;
+@model GOBrothers.Domain.Entities.AlbumImage
+
+<div class="item">
+    <h3>@Html.RouteLink(Model.OriginalName, new { controller = "AdminGallery", action = "AlbumImageEdit", area = "admin", albumImageId = Model.Id })</h3>
+    @{ string rndNameImage = Model.RndName; string rndNameImageSmall = Path.GetFileNameWithoutExtension(Model.RndName) + "_small" + Path.GetExtension(Model.RndName); }
+    <img src='~/Content/GalleryImages/@Model.Id.ToString()/@rndNameImageSmall' alt='' />
+    
+    <!-- Button "Delete of album image" -->
+    @using (Html.BeginForm("AlbumImageDelete", "AdminGallery", new { area = "admin" }))
+    {
+        @Html.Hidden("albumImageId", Model.Id)
+        <input type="submit" value="Delete" />
+    }
+</div>

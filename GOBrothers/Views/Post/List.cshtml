@@ -1,0 +1,17 @@
+﻿@model GOBrothers.Models.PostsListViewModel
+
+@{
+    ViewBag.Title = "Posts";
+}
+
+@foreach (var p in Model.Posts)
+{
+    Html.RenderPartial("PostSummaryPartial", p);
+}
+
+@if (Model.PagingInfo.TotalPages > 1)
+{
+    <div class="pager">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, blogId = Model.BlogId }))
+    </div>
+}

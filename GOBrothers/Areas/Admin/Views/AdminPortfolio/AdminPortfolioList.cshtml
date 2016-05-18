@@ -1,0 +1,24 @@
+﻿@using GOBrothers.HtmlHelpers
+@model GOBrothers.Areas.Admin.Models.AdminPortfolioPostsListViewModel
+
+@{
+    ViewBag.Title = "AdminPortfolioPosts";
+}
+@foreach (var pp in Model.PortfolioPosts)
+{
+    Html.RenderPartial("AdminPortfolioPostSummaryPartial", pp);
+}
+
+<br />
+<p>@Html.ActionLink("Додати запис портфоліо", "PortfolioCreate", "AdminPortfolio", new { area = "admin" }, null)</p>
+
+<!-- Message if post deleted -->
+<h4 style="color:red">@TempData["message"]</h4>
+
+<!-- Pagination -->
+@if (Model.PagingInfo.TotalPages > 1)
+{
+    <div class="pager">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("AdminPortfolioList", new { page = x }))
+    </div>
+}

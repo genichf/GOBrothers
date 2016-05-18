@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – приложение ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Loading style for prettyPhoto -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/prettyPhoto.css")" type="text/css" media="screen" charset="utf-8" />
+    <!-- End loading style for prettyPhoto -->
+</head>
+<body>
+    <header>
+        <table align="center">
+            <tr>
+                <td><a href=@Url.Action("Index","Home")><img src="~/Content/images/GOBrothers_logo.png" alt="GOBrothers"></a></td>
+                <td><img src="@Url.Content("~/Content/images/GOBrothers_header.png")" alt="GOBrother center"></td>
+            </tr>
+        </table>
+    </header>
+    <div class="navbar navbar-inverse" style="margin-left:auto; margin-right:auto;  margin-bottom:5px; width:1170px">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              @Html.Action("Items", "Menu")
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content" style="clear:left">
+        @RenderBody()
+        <hr  style="clear:left" />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – GOBrothers</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+    <!-- Loading scripts for prettyPhoto -->
+    <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Scripts/jquery.prettyPhoto.js")" type="text/javascript" charset="utf-8"></script>
+    <!-- End loading scripts for prettyPhoto -->
+
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $('#buttonDevelop').mouseover(function () {
+                $('#imgButtonDevelop').hide();
+                $('#imgButtonDevelopOver').show();
+            });
+            $('#buttonDevelop').mouseout(function () {
+                $('#imgButtonDevelop').show();
+                $('#imgButtonDevelopOver').hide();
+            });
+            $('#buttonDesign').mouseover(function () {
+                $('#imgButtonDesign').hide();
+                $('#imgButtonDesignOver').show();
+            });
+            $('#buttonDesign').mouseout(function () {
+                $('#imgButtonDesign').show();
+                $('#imgButtonDesignOver').hide();
+            });
+            $('#buttonProfessional').mouseover(function () {
+                $('#imgButtonProfessional').hide();
+                $('#imgButtonProfessionalOver').show();
+            });
+            $('#buttonProfessional').mouseout(function () {
+                $('#imgButtonProfessional').show();
+                $('#imgButtonProfessionalOver').hide();
+            });
+        });
+    </script>
+    <!-- Initialize prettyPhoto -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("a[rel^='prettyPhoto']").prettyPhoto();
+        });
+    </script>
+    <!-- End initialize prettyPhoto -->
+
+</body>
+</html>

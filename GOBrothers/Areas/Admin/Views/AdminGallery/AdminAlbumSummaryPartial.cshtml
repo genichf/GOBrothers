@@ -1,0 +1,18 @@
+﻿@model GOBrothers.Domain.Entities.Album
+
+<div class="item">
+    <h3>@Html.RouteLink(Model.Name, new { controller = "AdminGallery", action = "AlbumEdit", area = "admin", albumId = Model.Id }) </h3>
+    <img src='~/Content/GalleryImages/@Model.Id.ToString()/Logo/logo_small.jpg' alt='' class="logo" />
+    @{
+        string Created = "";
+        if (Model.Created != null) { Created = Model.Created.Value.ToString("dd.MM.yyyy H:mm:ss"); }
+    }
+    <div style="color:#808080;font-size:10px;">Додано/ред.: @Created</div>
+
+    <!-- Button "Delete of album" -->
+    @using (Html.BeginForm("AlbumDelete", "AdminGallery", new { area = "admin" }))
+    {
+        @Html.Hidden("albumId", Model.Id)
+        <input type="submit" value="Delete" />
+    }
+</div>

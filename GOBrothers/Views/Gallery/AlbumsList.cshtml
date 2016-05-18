@@ -1,0 +1,17 @@
+﻿@model GOBrothers.Models.AlbumsListViewModel
+
+@{
+    ViewBag.Title = "Albums";
+}
+<h3>Альбоми галереї</h3>
+@foreach (var a in Model.Albums)
+{
+    Html.RenderPartial("AlbumSummaryPartial", a);
+}
+
+@if (Model.PagingInfo.TotalPages > 1)
+{
+    <div class="pager">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("AlbumsList", new { page = x }))
+    </div>
+}

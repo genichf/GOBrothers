@@ -1,0 +1,216 @@
+﻿body {
+    /*padding-top: 50px;*/
+    /*padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*My Settings*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.1;
+  color: inherit;
+}
+
+body {
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #222222;
+  background-color: #808080;
+  background-image: url(../Content/images/bkg_turquoise.png);
+}
+
+header {
+    /*background: url(../Content/images/GOBrothers_header.png) no-repeat top center;*/
+    /*position:relative;*/
+    /*padding: 0 60px 0 60px;*/
+    /*text-align: center;*/
+    /*margin-left:47px;*/
+}
+
+.navbar-toggle {
+  /*position: relative;*/
+  float: left; /*For small display menu button appears on left-side*/
+  /*margin-right: 15px;
+  padding: 9px 10px;
+  margin-top: 5.5px;
+  margin-bottom: 5.5px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0;*/
+}
+.body-content {
+    background-color: #ffffff;
+}
+
+.navbar-header {
+    margin-bottom: 0px;
+}
+
+div.pager
+{
+  text-align: left;
+  border-top: 1px solid #0094ff;
+  padding: .5em 0 0 0;
+  margin-top: 1em;
+}
+
+div.pager a
+  {
+    font-size: 1.1em;
+    color: #777;
+    text-decoration: none;
+    padding: 0 .4em 0 .4em;
+  }
+
+    div.pager a:hover
+    {
+      background-color: Silver;
+    }
+
+    div.pager a.selected
+    {
+      background-color: #0094ff;
+      color: White;
+    }
+
+/*.logo {
+    padding-right:15px;
+    padding-top:15px;
+    padding-bottom:15px;
+}*/
+
+/*div.item > a > img {
+    padding-right:20px;
+}*/
+
+img.logo {
+    padding-right:15px;
+    padding-bottom:10px;
+}
+
+.main-content {
+    padding-bottom:15px;
+}
+
+/*For AlbumSummaryPartial*/
+.item-album {
+    margin:8px;
+    padding:5px;
+    border:1px solid #94ceff;
+    /*border-radius:4px;*/
+    background-color:#e8f6ff;
+    width:212px;
+    height:227px;
+    text-align:center;
+}
+/*For ImageSummaryPartial*/
+.item-image {
+    margin:11px;
+    padding:5px;
+    border:1px solid #94ceff;
+    /*border-radius:4px;*/
+    background-color:#e8f6ff;
+    width:263px;
+    height:227px;
+    text-align:center;
+    
+}
+
+/*For floating image by text in content - for left image  */
+.leftimg {
+    float:left; /* Выравнивание по левому краю */
+    margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+   }
+/*For floating image by text in content - for right image  */
+.rightimg  {
+    float: right; /* Выравнивание по правому краю  */ 
+    margin: 7px 0 7px 7px; /* Отступы вокруг картинки */
+   }
+
+.img-thumbnail{
+    width:250px;
+    height:166px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  padding-left: 0;
+  margin-left: -30%;
+  text-align: center;
+  list-style: none;
+}
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: #000 \9;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+.main-content {
+    
+}
+
+.my-row {
+  margin: auto;
+  padding-top:10px;  
+  left:0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width:1150px;
+} 
+
+footer {
+    /*border-top: 1px solid Silver;*/
+}
+
+.carousel-control.left {
+    background-image: none;
+    filter: none;
+}
+.carousel-control.right {
+    background-image: none;
+    filter: none;
+}

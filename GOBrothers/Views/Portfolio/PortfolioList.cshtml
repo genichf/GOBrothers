@@ -1,0 +1,18 @@
+﻿@model GOBrothers.Models.PortfolioPostsListViewModel
+
+@{
+    ViewBag.Title = "PortfolioPosts";
+}
+
+@foreach (var p in Model.PortfolioPosts)
+{
+    Html.RenderPartial("PortfolioPostSummaryPartial", p);
+}
+
+@if (Model.PagingInfo.TotalPages > 1)
+{
+    <div class="pager">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("PortfolioList", new { page = x, portfolioCategoryId = Model.PortfolioCategoryId }))
+    </div>
+}
+

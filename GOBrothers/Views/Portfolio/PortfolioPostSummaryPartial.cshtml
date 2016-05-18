@@ -1,0 +1,13 @@
+﻿@model GOBrothers.Domain.Entities.PortfolioPost
+
+<div class="item">
+    <div><h3>@Html.RouteLink(Model.Title, new { controller = "Portfolio", action = "PortfolioPostById", portfolioPostId = Model.Id })</h3></div>
+    <div style="float:left;"><a href='~/Content/PortfolioImages/@Model.Id.ToString()/Logo/logo.jpg' rel='prettyPhoto[pp_gal]'><img src='~/Content/PortfolioImages/@Model.Id.ToString()/Logo/logo_small.jpg' alt='' class="logo" /></a></div>
+    <div>@Html.Raw(Model.ShortContent)</div>
+    <div style="clear:left;">Категорія: @Html.RouteLink(Model.PortfolioCategory.Name, new { controller = "Portfolio", action = "PortfolioList", portfolioCategoryId = Model.PortfolioCategory.Id })</div>
+    @{
+        string Created = "";
+        if (Model.Created != null) { Created = Model.Created.Value.ToString("dd.MM.yyyy H:mm:ss"); }
+    }
+    <div style="color:#808080;font-size:10px;">Додано/редаговано: @Created</div>
+    </div>

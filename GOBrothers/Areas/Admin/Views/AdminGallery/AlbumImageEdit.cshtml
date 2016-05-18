@@ -1,0 +1,92 @@
+﻿@model GOBrothers.Domain.Entities.AlbumImage
+
+@{
+    ViewBag.Title = "Редагувати/додати";
+}
+
+@if (Model.Id == 0)
+{ <h4 style="color:#808080">Додавання нового зображення</h4> }
+else { <h4><span style="color:#808080">Редагування зображення - </span>@Model.OriginalName</h4>}
+
+@using (Html.BeginForm("AlbumImageEdit", "AdminGallery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>@Html.TextBoxFor(Model => Model.Id, new { style = "display: none;" })</p>
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.OriginalName, "Назва статті")
+    </div>
+    <div class="editor-field">
+        <p>@Html.TextBoxFor(Model => Model.OriginalName, new { style = "width:500px" })</p>
+        @Html.ValidationMessageFor(Model => Model.OriginalName)
+    </div>
+
+    <p>@Html.TextBoxFor(Model => Model.RndName, new { style = "display: none;" })</p>
+
+    <div class="editor-label">
+        @Html.LabelFor(Model => Model.AlbumId, "Додати в альбом:")
+    </div>
+    <div class="editor-field">
+        <p>@Html.DropDownListFor(Model => Model.AlbumId, (SelectList)ViewBag.Albums)</p>
+        @Html.ValidationMessageFor(Model => Model.Albums)
+    </div>
+
+        <div><p>Завантажити зображення:</p></div>
+        <div id="uploader"><p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p></div>
+
+    // Display image
+    if (Model.Id != 0)
+    {
+        <div class="outputimages">
+            <p>Зображення:</p>
+            @{
+                string pathToFile = Model.RndName;
+                string pathToSmallFile = Path.GetFileNameWithoutExtension(Model.RndName) + "_small" + Path.GetExtension(Model.RndName);
+                <img src="~/Content/GalleryImages/@Model.AlbumId.ToString()/@pathToSmallFile" alt="Image" />
+            }
+        </div>
+    }
+    <input type="submit" value="Зберегти" />
+    <br><br>
+    @Html.ActionLink("Відмінити та повернутися", null, null, null, new { href = Request.UrlReferrer })
+}
+
+@section Scripts {
+    <!-- Binding plupload to id="uploader", script settings and code for working plupload-->
+    <script type="text/javascript">
+    $(function () {
+        $("#uploader").pluploadQueue({
+            // General settings
+            runtimes: "html5,flash,silverlight,html4",
+            url: '@Url.Action("AlbumImageUpload", "AdminGallery", new { albumId = Model.AlbumId })',
+            max_file_size: '10mb',
+            chunk_size: '1mb',
+            unique_names: true,
+            button_browse_hover: true,
+            multiple_queues: true,
+            dragdrop: true,
+            // Resize images on clientside if we can
+            resize: { width: 1024, height: 768, quality: 90, crop: false },
+            // Specify what files to browse for
+            filters: [
+            { title: "Image files", extensions: "jpg,gif,png,jpeg,bmp" },
+            { title: "Zip files", extensions: "zip" },
+            { title: 'PDF files', extensions: 'pdf' },
+            { title: "Excel Files", extensions: "xls,xslx,csv" },
+        ],
+
+            // Flash settings
+            flash_swf_url: 'Url.Content("~/Scripts/plupload/js/Moxie.swf")',
+            // Silverlight settings
+            silverlight_xap_url: 'Url.Content("~/Scripts/plupload/js/Moxie.xap")'
+        });
+
+        var uploader = $('#uploader').pluploadQueue();
+        uploader.bind('UploadComplete', function () {
+            location.reload();
+        });
+    });
+    </script>
+    <!-- End binding plupload to id="uploader", script settings and code for working plupload-->
+}
+
+

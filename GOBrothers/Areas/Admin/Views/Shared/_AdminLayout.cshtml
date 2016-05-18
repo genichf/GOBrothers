@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – приложение ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Styles for plupload -->
+    <link href="@Url.Content("~/Scripts/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css")"
+          rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css")"
+          rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <table align="center">
+            <tr>
+                <td><a href=@Url.Action("AdminList", "Admin")><img src="~/Content/images/GOBrothers_logo.png" alt="GOBrothers"></a></td>
+                <td><img src="@Url.Content("~/Content/images/GOBrothers_header.png")" alt="GOBrother center"></td>
+            </tr>
+        </table>
+    </header>
+    <div class="navbar navbar-inverse" style="margin-left:auto; margin-right:auto;  margin-bottom:5px; width:1170px">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Action("AdminItems", "AdminMenu")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – GOBrothers</p>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        CKEDITOR_BASEPATH = "@Url.Content("~/ckeditor/")";
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+    <!-- Scripts for ckeditor -->
+    <script src="@Url.Content("~/ckeditor/ckeditor.js")"></script>
+    <script src="@Url.Content("~/ckeditor/adapters/jquery.js")"></script>
+   
+    <!-- Scripts for plupload -->
+    <script src="@Url.Content("~/Scripts/plupload/js/plupload.full.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js")" type="text/javascript"></script>
+
+    <!-- Loading scripts for prettyPhoto -->
+    <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Scripts/jquery.prettyPhoto.js")" type="text/javascript" charset="utf-8"></script>
+    <!-- End loading scripts for prettyPhoto -->
+    
+    <!-- Initialize prettyPhoto -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("a[rel^='prettyPhoto']").prettyPhoto();
+        });
+    </script>
+    <!-- End initialize prettyPhoto -->
+   
+</body>
+</html>

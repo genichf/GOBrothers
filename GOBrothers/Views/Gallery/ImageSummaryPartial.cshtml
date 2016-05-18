@@ -1,0 +1,8 @@
+﻿@using System.IO;
+@model GOBrothers.Domain.Entities.AlbumImage
+
+<div class="item-image" style="float:left">
+    @{ string rndNameImage = Model.RndName; string rndNameImageSmall = Path.GetFileNameWithoutExtension(Model.RndName) + "_small" + Path.GetExtension(Model.RndName); }
+    <div><a href='~/Content/GalleryImages/@Model.AlbumId.ToString()/@rndNameImage' rel='prettyPhoto[pp_gal]'><img src='~/Content/GalleryImages/@Model.AlbumId.ToString()/@rndNameImageSmall' alt='' /></a></div>
+    <div>@Model.OriginalName</div>
+</div>

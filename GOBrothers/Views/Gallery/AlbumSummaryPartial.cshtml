@@ -1,0 +1,11 @@
+﻿@model GOBrothers.Domain.Entities.Album
+
+<div class="item-album" style="float:left">
+    <div><h4>@Html.RouteLink(Model.Name, new { controller = "Gallery", action = "AlbumById", albumId = Model.Id })</h4></div>
+    <div><a href=@Url.Action("AlbumById", "Gallery", new { albumId = Model.Id })><img src='~/Content/GalleryImages/@Model.Id.ToString()/Logo/logo_small.jpg' alt='' class="logo" /></a></div>
+    @{
+        string Created = "";
+        if (Model.Created != null) { Created = Model.Created.Value.ToString("dd.MM.yyyy H:mm:ss"); }
+    }
+    <div style="color:#808080;font-size:10px;">Додано/ред.: @Created</div>
+</div>
